@@ -1,0 +1,39 @@
+<table id="input" border="0" cellspacing="2">
+  <tr>
+    <td style="width:200px;" align="right">Sets
+    </td>
+    <td>
+      <input type="text" id="sets" value="0" />
+    </td>
+  </tr>
+  <tr>
+    <td align="right">datas</td>
+    <td>
+      <input type="button" id="add" value="Add" />
+    </td>
+  </tr>
+
+  <tr>
+
+    <td style="height:3px" colspan="2">hello</td>
+  </tr>
+  <tr style="background-color: #383838">
+    <td>world</td>
+  </tr>
+  <tr>
+
+  </tr>
+</table>
+
+<script>
+$(document).ready(function() {
+  $("#add").bind("click", AddTables);
+
+  function AddTables(e) {
+    console.log("clicked");
+    $("#input").append("<tr><td>First Name</td></tr>");
+  }
+
+});
+
+</script>
