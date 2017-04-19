@@ -3,7 +3,7 @@
 echo "welcome " . $_POST["uname"] . " <br>";
 echo "Your password is:" .$_POST["psw"];
 
- header("Location: hello.html");
+ header("Location: wod.html");
          exit();
 ?>
 
