@@ -1,4 +1,13 @@
-<html>
+<?php
+
+echo "welcome " . $_POST["uname"] . " <br>";
+echo "Your password is:" .$_POST["psw"];
+
+ header("Location: hello.html");
+         exit();
+?>
+
+<!-- <html>
 <body>
 
 [default] 
@@ -15,8 +24,8 @@ $dynamodb = $sdk->createDynamoDb();
 
 
 
-Welcome <?php echo $_POST["uname"]; ?><br>
-Your password is: <?php echo $_POST["psw"]; ?>
+
+
 
 </body>
-</html>
+</html> -->
