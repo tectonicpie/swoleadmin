@@ -3,37 +3,60 @@
     <td style="width:200px;" align="right">Sets
     </td>
     <td>
-      <input type="text" id="sets" value="0" />
+      <input type="text" id="num_sets" value="8" />
     </td>
   </tr>
   <tr>
-    <td align="right">datas</td>
+    <td></td>
     <td>
       <input type="button" id="add" value="Add" />
     </td>
   </tr>
 
-  <tr>
-
-    <td style="height:3px" colspan="2">hello</td>
-  </tr>
   <tr style="background-color: #383838">
-    <td>world</td>
-  </tr>
-  <tr>
-
+    <td>Add Sets and Reps</td>
   </tr>
 </table>
 
 <script>
+var num_reps = {};
 $(document).ready(function() {
   $("#add").bind("click", AddTables);
 
   function AddTables(e) {
-    console.log("clicked");
-    $("#input").append("<tr><td>First Name</td></tr>");
+    console.log($("#num_sets").val());
+    for (i = 0; i < $("#num_sets").val(); i++) {
+      var tablerow = document.createElement("tr");
+      var tablecolumn = document.createElement("td");
+
+      var text = document.createTextNode('Set' + (i+1));
+      tablecolumn.append(text);
+      tablerow.append(tablecolumn);
+      tablecolumn = document.createElement("td");
+      var textbox = document.createElement("input");
+      $(textbox).attr({
+        'id': 'set' + i,
+        'value': 12,
+      });
+      tablecolumn.append(textbox);
+      tablerow.append(tablecolumn);
+      $("#input").append(tablerow);
+    }
+    $("#input").append("<tr><td></td><td><input type='button' id='save' value='save'/></td></tr>");
+    $("#save").bind("click", saveTables);
+  }
+
+  function saveTables(e) {
+    console.log("save table");
+    for (i = 0; i < $("#num_sets").val(); i++)
+    {
+      num_reps["set"+i] = $("#set"+i).val();
+    }
+    console.log(num_reps);
   }
 
 });
+
+
 
 </script>
