@@ -119,12 +119,62 @@ var wod = {day:Null, time:Null, workout:"chest", location:Null, exercises:exerci
     console.log(wod);
   }
 
+
+
+  function createWod(wod)
+  {
+
+    //create Exercises
+    wod.exercises.forEach(function(exercise) {
+      console.log(exercise.name);
+      console.log(exercise.sets);
+      
+    });
+  }
+
+  function createExercise(name, sets) {
+    var returnRow = document.createElement("tr");
+    var returnCol = document.createElement("td");
+    var table = document.createElement("table");
+    $(table).attr({
+      'id': name,
+    });
+
+    for(i=0;i<sets;i++)
+    {
+      var tablerow = document.createElement("tr");
+      var tablecolumn = document.createElement("td");
+      var text = document.createTextNode('Set ' + (i+1));
+      tablecolumn.append(text);
+      tablerow.append(tablecolumn);
+      tablecolumn = document.createElement("td");
+      var textbox = document.createElement("input");
+      $(textbox).attr({
+        'id': name+'s'+i+'r',
+        'value': 12,
+      });
+      tablecolumn.append(textbox);
+      tablerow.append(tablecolumn);
+      tablecolumn = document.createElement("td");
+      var textbox = document.createElement("input");
+      $(textbox).attr({
+        'id': name+'s'+i+'w',
+        'value': 0,
+      });
+      tablecolumn.append(textbox);
+      tablerow.append(tablecolumn);
+      table.append(tablerow);
+    }
+    returnCol.append(table);
+    returnRow.append(returnCol);
+    return returnRow;
+  }
 var num_reps = {};
 $(document).ready(function() {
   $("#add").bind("click", CreateTables);
 
   function CreateTables(e) {
-    console.log($("#num_sets").val());
+    console.log("Creating tables for entries");
     for (i = 0; i < $("#num_sets").val(); i++) {
       var tablerow = document.createElement("tr");
       var tablecolumn = document.createElement("td");
@@ -146,6 +196,7 @@ $(document).ready(function() {
     $("#save").bind("click", saveTables);
   }
 });
+
 
 
 
