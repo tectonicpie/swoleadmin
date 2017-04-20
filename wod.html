@@ -36,75 +36,53 @@
   <td>
   <input type="text" name="wod_day">
   </td>
+  <td>
+  <input type="button" name="add" id="add">
+  </td>
   </tr>
 </table>
 
 <table id="input" border="0" cellspacing="2">
   <tr>
+  <td>
+  <table>
+    <tr>
     <td align="right">Exercise
     </td>
     <td>
-      <input type="text" id="exercise1"/>
+    Reps
     </td>
-  </tr>
-  <tr>
-  <td>Set 1 reps:
-  </td>
-  <td>
-    <input type="text" id="e1s1"/>
+    <td>Weight
+    </td>
+    </tr>
+  </table>
   </td>
   </tr>
-  <tr>
-  <td>Set 2 reps:
-  </td>
-  <td>
-    <input type="text" id="e1s2"/>
-  </td>
-  </tr>
-    <tr>
-  <td>Set 3 reps:
-  </td>
-  <td>
-    <input type="text" id="e1s3"/>
-  </td>
-  </tr>
-    <tr>
-  <td>Set 4 reps:
-  </td>
-  <td>
-    <input type="text" id="e1s4"/>
-  </td>
-  </tr>
-    <tr>
-  <td>Set 5 reps:
-  </td>
-  <td>
-    <input type="text" id="e1s5"/>
-  </td>
-  </tr>
-
-
+  
 </table>
 </form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
 <script>
-
+$(document).ready(function() {
+  $("#add").bind("click", createWod);
 
 var exercises_names = ["flat_bench", "incline_bench", "decline_bench", "incline_flies", "flat_flies", "decline_flies", "pullovers"];
+var exercises_sets = [5, 5, 5, 5, 5, 5, 5];
 var exercises = [];
 for(k=0;k<exercises_names.length;k++)
+{
   var sets = [];
   var exercise = {name:exercises_names[k], sets:sets};
-  for (i=0;i<5;i++)
+  for (i=0; i<exercises_sets[k]; i++)
   {
-    var set = {reps:"12", weight:"0"; video:Null};
+    var set = {reps:"12", weight:"0", video:""};
     sets[i] = set;
   }
   exercises[k]=exercise;
 }
-var wod = {day:Null, time:Null, workout:"chest", location:Null, exercises:exercises};
+var wod = {day:"", time:"", workout:"chest", location:"", exercises:exercises};
 
   function saveTables(e) {
     console.log("save table");
@@ -112,23 +90,22 @@ var wod = {day:Null, time:Null, workout:"chest", location:Null, exercises:exerci
     {
       for (i = 0; i < wod.exercises[k].sets.length; i++)
       {
-        wod.exercises[k].sets[i].reps = $("#"+exercises_names[k]+"s"+i+"r").val();
-        wod.exercises[k].sets[i].weight = $("#"+exercises_names[k]+"s"+i+"wod").val();
+        wod.exercises[k].sets[i].reps = $("#"+wod.exercises[k].name+"s"+i+"r").val();
+        wod.exercises[k].sets[i].weight = $("#"+wod.exercises[k].name+"s"+i+"w").val();
       }
     }
     console.log(wod);
   }
 
-
-
-  function createWod(wod)
+  function createWod()
   {
-
+    //var table = document.getElementById("table");
     //create Exercises
+
     wod.exercises.forEach(function(exercise) {
       console.log(exercise.name);
       console.log(exercise.sets);
-      
+      createExercise(exercise.name, exercise.sets.length);
     });
   }
 
@@ -137,8 +114,11 @@ var wod = {day:Null, time:Null, workout:"chest", location:Null, exercises:exerci
     var returnCol = document.createElement("td");
     var table = document.createElement("table");
     $(table).attr({
-      'id': name,
+      'id': name
     });
+    returnCol.append(table);
+    returnRow.append(returnCol);
+    $("#input").append(returnRow);
 
     for(i=0;i<sets;i++)
     {
@@ -156,45 +136,42 @@ var wod = {day:Null, time:Null, workout:"chest", location:Null, exercises:exerci
       tablecolumn.append(textbox);
       tablerow.append(tablecolumn);
       tablecolumn = document.createElement("td");
-      var textbox = document.createElement("input");
+      textbox = document.createElement("input");
       $(textbox).attr({
         'id': name+'s'+i+'w',
         'value': 0,
       });
       tablecolumn.append(textbox);
       tablerow.append(tablecolumn);
-      table.append(tablerow);
+      $("#"+name).append(tablerow);
     }
-    returnCol.append(table);
-    returnRow.append(returnCol);
-    return returnRow;
-  }
-var num_reps = {};
-$(document).ready(function() {
-  $("#add").bind("click", CreateTables);
 
-  function CreateTables(e) {
-    console.log("Creating tables for entries");
-    for (i = 0; i < $("#num_sets").val(); i++) {
-      var tablerow = document.createElement("tr");
-      var tablecolumn = document.createElement("td");
-
-      var text = document.createTextNode('Set' + (i+1));
-      tablecolumn.append(text);
-      tablerow.append(tablecolumn);
-      tablecolumn = document.createElement("td");
-      var textbox = document.createElement("input");
-      $(textbox).attr({
-        'id': 'set' + i,
-        'value': 12,
-      });
-      tablecolumn.append(textbox);
-      tablerow.append(tablecolumn);
-      $("#input").append(tablerow);
-    }
-    $("#input").append("<tr><td></td><td><input type='button' id='save' value='save'/></td></tr>");
-    $("#save").bind("click", saveTables);
   }
+
+// var num_reps = {};
+//   function CreateTables(e) {
+//     console.log("Creating tables for entries");
+//     for (i = 0; i < $("#num_sets").val(); i++) {
+//       var tablerow = document.createElement("tr");
+//       var tablecolumn = document.createElement("td");
+
+//       var text = document.createTextNode('Set' + (i+1));
+//       tablecolumn.append(text);
+//       tablerow.append(tablecolumn);
+//       tablecolumn = document.createElement("td");
+//       var textbox = document.createElement("input");
+//       $(textbox).attr({
+//         'id': 'set' + i,
+//         'value': 12,
+//       });
+//       tablecolumn.append(textbox);
+//       tablerow.append(tablecolumn);
+//       $("#input").append(tablerow);
+//     }
+//     $("#input").append("<tr><td></td><td><input type='button' id='save' value='save'/></td></tr>");
+//     $("#save").bind("click", saveTables);
+//   }
+
 });
 
 
