@@ -90,17 +90,40 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
 <script>
-// var wod = {day:"Fiat", time:"500", workout:"white", location:"", exercises:exercises};
-// var exercises = [];
-// var exercise = {name:"", sets:sets};
-// var sets = [];
-// var set = {reps:"", video:Null};
+
+
+var exercises_names = ["flat_bench", "incline_bench", "decline_bench", "incline_flies", "flat_flies", "decline_flies", "pullovers"];
+var exercises = [];
+for(k=0;k<exercises_names.length;k++)
+  var sets = [];
+  var exercise = {name:exercises_names[k], sets:sets};
+  for (i=0;i<5;i++)
+  {
+    var set = {reps:"12", weight:"0"; video:Null};
+    sets[i] = set;
+  }
+  exercises[k]=exercise;
+}
+var wod = {day:Null, time:Null, workout:"chest", location:Null, exercises:exercises};
+
+  function saveTables(e) {
+    console.log("save table");
+    for(k=0;k<wod.exercises.length;k++)
+    {
+      for (i = 0; i < wod.exercises[k].sets.length; i++)
+      {
+        wod.exercises[k].sets[i].reps = $("#"+exercises_names[k]+"s"+i+"r").val();
+        wod.exercises[k].sets[i].weight = $("#"+exercises_names[k]+"s"+i+"wod").val();
+      }
+    }
+    console.log(wod);
+  }
 
 var num_reps = {};
 $(document).ready(function() {
-  $("#add").bind("click", AddTables);
+  $("#add").bind("click", CreateTables);
 
-  function AddTables(e) {
+  function CreateTables(e) {
     console.log($("#num_sets").val());
     for (i = 0; i < $("#num_sets").val(); i++) {
       var tablerow = document.createElement("tr");
@@ -122,16 +145,6 @@ $(document).ready(function() {
     $("#input").append("<tr><td></td><td><input type='button' id='save' value='save'/></td></tr>");
     $("#save").bind("click", saveTables);
   }
-
-  function saveTables(e) {
-    console.log("save table");
-    for (i = 0; i < $("#num_sets").val(); i++)
-    {
-      num_reps["set"+i] = $("#set"+i).val();
-    }
-    console.log(num_reps);
-  }
-
 });
 
 
