@@ -37,10 +37,10 @@
   <input type="text" name="wod_day">
   </td>
   <td>
-  <input type="button" name="add" id="add">
+  <input type="button" name="add" id="add" value="Create WOD">
   </td>
   </tr>
-</table>
+</table>-
 
 <table id="input" border="0" cellspacing="2">
   <tr>
@@ -84,7 +84,7 @@ for(k=0;k<exercises_names.length;k++)
 }
 var wod = {day:"", time:"", workout:"chest", location:"", exercises:exercises};
 
-  function saveTables(e) {
+  function saveWod(e) {
     console.log("save table");
     for(k=0;k<wod.exercises.length;k++)
     {
@@ -107,6 +107,19 @@ var wod = {day:"", time:"", workout:"chest", location:"", exercises:exercises};
       console.log(exercise.sets);
       createExercise(exercise.name, exercise.sets.length);
     });
+    var row = document.createElement("tr");
+    var col = document.createElement("td");
+    var save = document.createElement("button");
+    $(save).attr({
+      'id': 'save',
+      'name': 'save',
+      'value': 'Save Wod'
+    });
+    col.append(save);
+    row.append(col);
+    $("#input").append(row);
+    $("#save").bind("click", saveWod);
+
   }
 
   function createExercise(name, sets) {
